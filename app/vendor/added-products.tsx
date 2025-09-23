@@ -1,22 +1,22 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { useAuth } from '@/hooks/auth-store';
 import { router } from 'expo-router';
 import {
-    AlertTriangle,
-    ArrowLeft,
-    CheckCircle,
-    Clock,
-    Package,
-    XCircle
+  AlertTriangle,
+  ArrowLeft,
+  CheckCircle,
+  Clock,
+  Package,
+  XCircle
 } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
-    FlatList,
-    RefreshControl,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

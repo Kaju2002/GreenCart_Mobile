@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { useAuth } from '@/hooks/auth-store';
 import { router } from 'expo-router';
 import {
@@ -111,7 +111,7 @@ export default function ProfileScreen() {
             icon={<Heart size={20} color={Colors.primary} />}
             title="Favorites"
             subtitle="Your saved products"
-            onPress={() => router.push('/favorites')}
+            onPress={() => router.push('/favourites')}
           />
           
           <MenuItem

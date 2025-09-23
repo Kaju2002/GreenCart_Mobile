@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { useAuth } from '@/hooks/auth-store';
 import {
   AlertCircle,
@@ -75,14 +75,45 @@ export default function CheckoutVerificationScreen({
       if (result.success) {
         onVerificationSuccess();
       } else {
-        // Biometric failed, switch to PIN
+        // Enhanced error handling for iOS
+        let errorMessage = 'Biometric authentication failed.';
+
+        if (result.error) {
+          if (result.error.includes('cancel')) {
+            errorMessage = 'Authentication was cancelled. Please try again.';
+          } else if (result.error.includes('lockout')) {
+            errorMessage = 'Too many failed attempts. Biometric authentication is temporarily disabled.';
+          } else if (result.error.includes('not_enrolled')) {
+            errorMessage = 'Biometric data not found. Please check your device settings.';
+          }
+        }
+
         setAuthMethod('pin');
-        setError('Biometric authentication failed. Please use your PIN.');
+        setError(errorMessage);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log('Biometric authentication error:', error);
+
+      let errorMessage = 'Biometric authentication failed.';
+
+      if (error.code) {
+        switch (error.code) {
+          case 'LAErrorAuthenticationFailed':
+            errorMessage = 'Authentication failed. Switching to PIN.';
+            break;
+          case 'LAErrorUserCancel':
+            errorMessage = 'Authentication cancelled. Please use PIN.';
+            break;
+          case 'LAErrorBiometryLockout':
+            errorMessage = 'Biometric authentication locked. Please use PIN.';
+            break;
+          default:
+            errorMessage = 'Authentication failed. Please use PIN.';
+        }
+      }
+
       setAuthMethod('pin');
-      setError('Biometric authentication failed. Please use your PIN.');
+      setError(errorMessage);
     } finally {
       setIsAuthenticating(false);
     }

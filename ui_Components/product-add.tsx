@@ -1,8 +1,8 @@
 // ui_Components/ProductCard.tsx
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { ShoppingCart } from 'lucide-react-native';
+import React from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface ProductCardProps {
   name: string;

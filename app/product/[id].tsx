@@ -1,10 +1,10 @@
-import ProductCard from "@/components/ProductCard";
-import { Colors } from "@/constants/colors";
-import { mockProducts, mockReviews } from "@/data/products";
-import { useCart } from "@/hooks/cart-store";
-import { useFavorites } from "@/hooks/favorites-store";
-import { Product, Review } from "@/types/product";
-import { router, Stack, useLocalSearchParams } from "expo-router";
+import ProductCard from '@/components/ProductCard';
+import { Colors } from '@/constants/Colors';
+import { mockProducts, mockReviews } from '@/data/products';
+import { useCart } from '@/hooks/cart-store';
+import { useFavorites } from '@/hooks/favorites-store';
+import { Product, Review } from '@/types/product';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import {
   ArrowLeft,
   Award,
@@ -17,8 +17,8 @@ import {
   Share2,
   ShoppingCart,
   Star,
-} from "lucide-react-native";
-import React, { useState } from "react";
+} from 'lucide-react-native';
+import React, { useState } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -28,28 +28,28 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState<"details" | "reviews">("details");
+  const [activeTab, setActiveTab] = useState<'details' | 'reviews'>('details');
   const { addToCart } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
 
   const product = mockProducts.find((p) => p.id === id);
-  const reviews = mockReviews[id || ""] || [];
+  const reviews = mockReviews[id || ''] || [];
   const relatedProducts = mockProducts
     .filter((p) => p.category === product?.category && p.id !== id)
     .slice(0, 4);
 
   if (!product) {
     return (
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
         <Text>Product not found</Text>
       </SafeAreaView>
     );
@@ -61,7 +61,7 @@ export default function ProductDetailScreen() {
     for (let i = 0; i < quantity; i++) {
       addToCart(product);
     }
-    router.push("/(tabs)/cart");
+    router.push('/(tabs)/cart');
   };
 
   const renderStars = (rating: number, size: number = 16) => {
@@ -72,7 +72,7 @@ export default function ProductDetailScreen() {
             key={star}
             size={size}
             color={star <= rating ? Colors.warning : Colors.border}
-            fill={star <= rating ? Colors.warning : "transparent"}
+            fill={star <= rating ? Colors.warning : 'transparent'}
           />
         ))}
       </View>
@@ -115,13 +115,13 @@ export default function ProductDetailScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <Stack.Screen
         options={{
           headerShown: false,
         }}
       />
-
+      
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.headerButton}
@@ -132,12 +132,12 @@ export default function ProductDetailScreen() {
         <View style={styles.headerActions}>
           <TouchableOpacity
             style={styles.headerButton}
-            onPress={() => toggleFavorite(id || "")}
+            onPress={() => toggleFavorite(id || '')}
           >
             <Heart
               size={24}
-              color={isFavorite(id || "") ? Colors.error : Colors.text}
-              fill={isFavorite(id || "") ? Colors.error : "transparent"}
+              color={isFavorite(id || '') ? Colors.error : Colors.text}
+              fill={isFavorite(id || '') ? Colors.error : 'transparent'}
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.headerButton}>
@@ -199,7 +199,7 @@ export default function ProductDetailScreen() {
 
           <Text style={styles.productName}>{product.name}</Text>
           <Text style={styles.farmName}>from {product.farmName}</Text>
-
+          
           <View style={styles.ratingContainer}>
             {renderStars(product.rating, 18)}
             <Text style={styles.ratingText}>
@@ -213,26 +213,32 @@ export default function ProductDetailScreen() {
 
         <View style={styles.tabContainer}>
           <TouchableOpacity
-            style={[styles.tab, activeTab === "details" && styles.activeTab]}
-            onPress={() => setActiveTab("details")}
+            style={[
+              styles.tab,
+              activeTab === 'details' && styles.activeTab,
+            ]}
+            onPress={() => setActiveTab('details')}
           >
             <Text
               style={[
                 styles.tabText,
-                activeTab === "details" && styles.activeTabText,
+                activeTab === 'details' && styles.activeTabText,
               ]}
             >
               Details
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.tab, activeTab === "reviews" && styles.activeTab]}
-            onPress={() => setActiveTab("reviews")}
+            style={[
+              styles.tab,
+              activeTab === 'reviews' && styles.activeTab,
+            ]}
+            onPress={() => setActiveTab('reviews')}
           >
             <Text
               style={[
                 styles.tabText,
-                activeTab === "reviews" && styles.activeTabText,
+                activeTab === 'reviews' && styles.activeTabText,
               ]}
             >
               Reviews ({reviews.length})
@@ -240,7 +246,7 @@ export default function ProductDetailScreen() {
           </TouchableOpacity>
         </View>
 
-        {activeTab === "details" ? (
+        {activeTab === 'details' ? (
           <View style={styles.detailsContent}>
             {product.origin && (
               <View style={styles.detailItem}>
@@ -251,15 +257,13 @@ export default function ProductDetailScreen() {
                 </View>
               </View>
             )}
-
+            
             {product.nutritionInfo && (
               <View style={styles.detailItem}>
                 <Award size={20} color={Colors.success} />
                 <View style={styles.detailText}>
                   <Text style={styles.detailLabel}>Nutrition</Text>
-                  <Text style={styles.detailValue}>
-                    {product.nutritionInfo}
-                  </Text>
+                  <Text style={styles.detailValue}>{product.nutritionInfo}</Text>
                 </View>
               </View>
             )}
@@ -286,9 +290,7 @@ export default function ProductDetailScreen() {
                 renderItem={renderReview}
                 keyExtractor={(item) => item.id}
                 scrollEnabled={false}
-                ItemSeparatorComponent={() => (
-                  <View style={styles.reviewSeparator} />
-                )}
+                ItemSeparatorComponent={() => <View style={styles.reviewSeparator} />}
               />
             ) : (
               <Text style={styles.noReviews}>No reviews yet</Text>
@@ -327,7 +329,7 @@ export default function ProductDetailScreen() {
             <Plus size={20} color={Colors.text} />
           </TouchableOpacity>
         </View>
-
+        
         <TouchableOpacity
           style={styles.addToCartButton}
           onPress={handleAddToCart}
@@ -348,9 +350,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
   },
@@ -359,42 +361,42 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     backgroundColor: Colors.white,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   headerActions: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 12,
   },
   content: {
     flex: 1,
   },
   imageContainer: {
-    position: "relative",
+    position: 'relative',
   },
   productImage: {
     width: width,
     height: 300,
   },
   imageIndicators: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 16,
     left: 0,
     right: 0,
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     gap: 8,
   },
   indicator: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
   },
   activeIndicator: {
     backgroundColor: Colors.white,
@@ -403,13 +405,13 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   badges: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 8,
     marginBottom: 12,
   },
   badge: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
@@ -420,20 +422,20 @@ const styles = StyleSheet.create({
   },
   localBadgeText: {
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.primary,
   },
   organicBadge: {
-    backgroundColor: "#E8F5E8",
+    backgroundColor: '#E8F5E8',
   },
   organicBadgeText: {
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.success,
   },
   productName: {
     fontSize: 24,
-    fontWeight: "700",
+    fontWeight: '700',
     color: Colors.text,
     marginBottom: 4,
   },
@@ -443,13 +445,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   ratingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
     marginBottom: 16,
   },
   starsContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 2,
   },
   ratingText: {
@@ -458,7 +460,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 28,
-    fontWeight: "700",
+    fontWeight: '700',
     color: Colors.primary,
     marginBottom: 12,
   },
@@ -468,7 +470,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   tabContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
     marginHorizontal: 20,
@@ -476,7 +478,7 @@ const styles = StyleSheet.create({
   tab: {
     flex: 1,
     paddingVertical: 16,
-    alignItems: "center",
+    alignItems: 'center',
   },
   activeTab: {
     borderBottomWidth: 2,
@@ -484,7 +486,7 @@ const styles = StyleSheet.create({
   },
   tabText: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.textLight,
   },
   activeTabText: {
@@ -494,8 +496,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   detailItem: {
-    flexDirection: "row",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     gap: 12,
     marginBottom: 16,
   },
@@ -504,7 +506,7 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.text,
     marginBottom: 4,
   },
@@ -518,7 +520,7 @@ const styles = StyleSheet.create({
   },
   certificationsTitle: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.text,
     marginBottom: 12,
   },
@@ -526,8 +528,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   certificationBadge: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
     paddingVertical: 4,
   },
@@ -542,14 +544,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   reviewHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     marginBottom: 8,
   },
   reviewUser: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 12,
   },
   reviewAvatar: {
@@ -557,22 +559,22 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     backgroundColor: Colors.primary,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   reviewAvatarText: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.white,
   },
   reviewNameContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 4,
   },
   reviewUserName: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.text,
   },
   reviewDate: {
@@ -590,7 +592,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   noReviews: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 16,
     color: Colors.textLight,
     marginTop: 40,
@@ -601,7 +603,7 @@ const styles = StyleSheet.create({
   },
   relatedTitle: {
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: '700',
     color: Colors.text,
     marginBottom: 16,
     paddingHorizontal: 20,
@@ -614,8 +616,8 @@ const styles = StyleSheet.create({
     width: 160,
   },
   bottomContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
     backgroundColor: Colors.white,
@@ -624,8 +626,8 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   quantityContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: Colors.background,
     borderRadius: 12,
     padding: 4,
@@ -635,20 +637,20 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 8,
     backgroundColor: Colors.white,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   quantityText: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.text,
     paddingHorizontal: 16,
   },
   addToCartButton: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: Colors.primary,
     borderRadius: 12,
     paddingVertical: 16,
@@ -656,7 +658,7 @@ const styles = StyleSheet.create({
   },
   addToCartText: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.white,
   },
 });

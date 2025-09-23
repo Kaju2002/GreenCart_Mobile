@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { router, Stack } from 'expo-router';
 import { ArrowLeft, Mail } from 'lucide-react-native';
 import React, { useState } from 'react';

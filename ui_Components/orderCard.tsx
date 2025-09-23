@@ -1,7 +1,7 @@
 // ui_Components/OrderCard.tsx
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { Colors } from "@/constants/colors";
+import { Colors } from "@/constants/Colors";
 import { Package } from "lucide-react-native";
 
 interface OrderCardProps {

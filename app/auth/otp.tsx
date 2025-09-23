@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { useAuth } from '@/hooks/auth-store';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';

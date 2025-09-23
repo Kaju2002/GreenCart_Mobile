@@ -1,27 +1,27 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { Stack, router } from 'expo-router';
 import {
-    Award,
-    Building2,
-    CheckCircle,
-    FileText,
-    Globe,
-    Heart,
-    Mail,
-    MapPin,
-    Phone,
+  Award,
+  Building2,
+  CheckCircle,
+  FileText,
+  Globe,
+  Heart,
+  Mail,
+  MapPin,
+  Phone,
 } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

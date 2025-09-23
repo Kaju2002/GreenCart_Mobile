@@ -1,4 +1,4 @@
-import colorTheme, { Colors } from "@/constants/colors";
+import colorTheme, { Colors } from "@/constants/Colors";
 import { useCart } from "@/hooks/cart-store";
 import { Tabs } from "expo-router";
 import { Home, MessageCircle, ShoppingCart, User } from "lucide-react-native";

@@ -1,8 +1,8 @@
 // __tests__/OrderCard.test.tsx
-import React from "react";
-import { render } from "@testing-library/react-native";
+import { Colors } from "@/constants/Colors";
 import OrderCard from "@/ui_Components/OrderCard";
-import { Colors } from "@/constants/colors";
+import { render } from "@testing-library/react-native";
+import React from "react";
 
 describe("OrderCard", () => {
   const baseProps = {
