@@ -1,5 +1,5 @@
 import ProductCard from '@/components/ProductCard';
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { mockProducts } from '@/data/products';
 import { useAuth } from '@/hooks/auth-store';
 import { useCart } from '@/hooks/cart-store';

@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { useAuth } from '@/hooks/auth-store';
 import { router } from 'expo-router';
 import { Leaf, Lock, Mail } from 'lucide-react-native';

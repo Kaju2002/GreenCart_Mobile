@@ -1,8 +1,8 @@
 // ui_Components/ProductStatusCard.tsx
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Colors } from '@/constants/Colors';
 import { CheckCircle, Clock, XCircle } from 'lucide-react-native';
-import { Colors } from '@/constants/colors';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface ProductStatusCardProps {
   name: string;

@@ -1,21 +1,21 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import {
-    Fingerprint,
-    Shield,
-    SkipForward,
-    User
+  Fingerprint,
+  Shield,
+  SkipForward,
+  User
 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -60,7 +60,7 @@ export default function BiometricSetupScreen() {
         promptMessage: `Set up ${biometricType === 'fingerprint' ? 'fingerprint' : 'face'} recognition`,
         fallbackLabel: 'Use PIN',
         cancelLabel: 'Cancel',
-        disableDeviceFallback: true,
+        // Remove disableDeviceFallback for iOS compatibility
       });
 
       if (result.success) {
@@ -79,11 +79,46 @@ export default function BiometricSetupScreen() {
           ]
         );
       } else {
-        Alert.alert('Setup Failed', 'Biometric setup was cancelled or failed.');
+        // Handle specific iOS/Android differences
+        const errorMessage = result.error?.includes('user_cancel')
+          ? 'Authentication was cancelled'
+          : result.error?.includes('lockout')
+          ? 'Too many failed attempts. Please try again later.'
+          : 'Biometric setup was cancelled or failed.';
+        Alert.alert('Setup Failed', errorMessage);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log('Biometric setup error:', error);
-      Alert.alert('Error', 'Failed to set up biometric authentication.');
+
+      // Handle iOS-specific errors
+      let errorMessage = 'Failed to set up biometric authentication.';
+
+      if (error.code) {
+        switch (error.code) {
+          case 'LAErrorAuthenticationFailed':
+            errorMessage = 'Authentication failed. Please try again.';
+            break;
+          case 'LAErrorUserCancel':
+            errorMessage = 'Authentication was cancelled.';
+            break;
+          case 'LAErrorUserFallback':
+            errorMessage = 'Please use your PIN instead.';
+            break;
+          case 'LAErrorBiometryNotAvailable':
+            errorMessage = 'Biometric authentication is not available on this device.';
+            break;
+          case 'LAErrorBiometryNotEnrolled':
+            errorMessage = 'No biometric data enrolled. Please set up biometrics in Settings.';
+            break;
+          case 'LAErrorBiometryLockout':
+            errorMessage = 'Biometric authentication is locked. Please use your PIN.';
+            break;
+          default:
+            errorMessage = 'An unexpected error occurred. Please try again.';
+        }
+      }
+
+      Alert.alert('Error', errorMessage);
     } finally {
       setIsLoading(false);
     }

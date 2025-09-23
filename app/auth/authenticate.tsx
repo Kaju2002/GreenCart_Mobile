@@ -1,22 +1,22 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { useAuth } from '@/hooks/auth-store';
 import { router } from 'expo-router';
 import {
-    AlertCircle,
-    Eye,
-    EyeOff,
-    Fingerprint,
-    Lock,
-    User
+  AlertCircle,
+  Eye,
+  EyeOff,
+  Fingerprint,
+  Lock,
+  User
 } from 'lucide-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

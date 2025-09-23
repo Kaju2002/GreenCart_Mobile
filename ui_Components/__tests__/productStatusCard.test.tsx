@@ -1,8 +1,8 @@
 // __tests__/ProductStatusCard.test.tsx
-import React from 'react';
-import { render } from '@testing-library/react-native';
+import { Colors } from '@/constants/Colors';
 import ProductStatusCard from '@/ui_Components/ProductStatusCard';
-import { Colors } from '@/constants/colors';
+import { render } from '@testing-library/react-native';
+import React from 'react';
 
 describe('ProductStatusCard', () => {
   it('renders product name, category, and price correctly', () => {

@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { Clock, MessageCircle, Send } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';

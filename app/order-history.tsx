@@ -1,44 +1,37 @@
-import { Colors } from "@/constants/colors";
-import { useOrder } from "@/hooks/order-store";
-import { Order } from "@/types/product";
-import { router } from "expo-router";
-import { ArrowLeft, Package, ShoppingBag } from "lucide-react-native";
-import React from "react";
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Colors } from '@/constants/Colors';
+import { useOrder } from '@/hooks/order-store';
+import { Order } from '@/types/product';
+import { router } from 'expo-router';
+import { ArrowLeft, Package, ShoppingBag } from 'lucide-react-native';
+import React from 'react';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function OrderHistoryScreen() {
   const { orders, isLoading } = useOrder();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
-  const getStatusColor = (status: Order["status"]) => {
+  const getStatusColor = (status: Order['status']) => {
     switch (status) {
-      case "confirmed":
+      case 'confirmed':
         return Colors.success;
-      case "processing":
+      case 'processing':
         return Colors.primary;
-      case "shipped":
+      case 'shipped':
         return Colors.warning;
-      case "delivered":
+      case 'delivered':
         return Colors.success;
-      case "cancelled":
+      case 'cancelled':
         return Colors.error;
       default:
         return Colors.textLight;
@@ -49,15 +42,10 @@ export default function OrderHistoryScreen() {
     <View style={styles.orderCard}>
       <View style={styles.orderHeader}>
         <View style={styles.orderInfo}>
-          <Text style={styles.orderId}>Order #{item.id.split("_")[1]}</Text>
+          <Text style={styles.orderId}>Order #{item.id.split('_')[1]}</Text>
           <Text style={styles.orderDate}>{formatDate(item.orderDate)}</Text>
         </View>
-        <View
-          style={[
-            styles.statusBadge,
-            { backgroundColor: getStatusColor(item.status) },
-          ]}
-        >
+        <View style={[styles.statusBadge, { backgroundColor: getStatusColor(item.status) }]}>
           <Text style={styles.statusText}>{item.status.toUpperCase()}</Text>
         </View>
       </View>
@@ -65,10 +53,7 @@ export default function OrderHistoryScreen() {
       <View style={styles.itemsPreview}>
         {item.items.slice(0, 3).map((orderItem, index) => (
           <View key={index} style={styles.itemPreview}>
-            <Image
-              source={{ uri: orderItem.product.image }}
-              style={styles.itemImage}
-            />
+            <Image source={{ uri: orderItem.product.image }} style={styles.itemImage} />
             {orderItem.quantity > 1 && (
               <View style={styles.quantityBadge}>
                 <Text style={styles.quantityText}>{orderItem.quantity}</Text>
@@ -85,8 +70,7 @@ export default function OrderHistoryScreen() {
 
       <View style={styles.orderFooter}>
         <Text style={styles.totalItems}>
-          {item.items.reduce((sum, orderItem) => sum + orderItem.quantity, 0)}{" "}
-          items
+          {item.items.reduce((sum, orderItem) => sum + orderItem.quantity, 0)} items
         </Text>
         <Text style={styles.orderTotal}>${item.totalAmount.toFixed(2)}</Text>
       </View>
@@ -95,7 +79,7 @@ export default function OrderHistoryScreen() {
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()}>
             <ArrowLeft size={24} color={Colors.text} />
@@ -112,7 +96,7 @@ export default function OrderHistoryScreen() {
 
   if (orders.length === 0) {
     return (
-      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+      <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()}>
             <ArrowLeft size={24} color={Colors.text} />
@@ -124,12 +108,10 @@ export default function OrderHistoryScreen() {
         <View style={styles.emptyContainer}>
           <Package size={64} color={Colors.textLight} />
           <Text style={styles.emptyTitle}>No orders yet</Text>
-          <Text style={styles.emptySubtitle}>
-            Your order history will appear here once you place your first order.
-          </Text>
+          <Text style={styles.emptySubtitle}>Your order history will appear here once you place your first order.</Text>
           <TouchableOpacity
             style={styles.shopButton}
-            onPress={() => router.push("/")}
+            onPress={() => router.push('/')}
           >
             <ShoppingBag size={20} color={Colors.white} />
             <Text style={styles.shopButtonText}>Start Shopping</Text>
@@ -140,7 +122,7 @@ export default function OrderHistoryScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <ArrowLeft size={24} color={Colors.text} />
@@ -166,9 +148,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
@@ -177,13 +159,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: '700',
     color: Colors.text,
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   loadingText: {
     fontSize: 16,
@@ -191,13 +173,13 @@ const styles = StyleSheet.create({
   },
   emptyContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 40,
   },
   emptyTitle: {
     fontSize: 20,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.text,
     marginTop: 16,
     marginBottom: 8,
@@ -205,12 +187,12 @@ const styles = StyleSheet.create({
   emptySubtitle: {
     fontSize: 16,
     color: Colors.textLight,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 24,
   },
   shopButton: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: Colors.primary,
     paddingHorizontal: 24,
     paddingVertical: 12,
@@ -220,7 +202,7 @@ const styles = StyleSheet.create({
   shopButtonText: {
     color: Colors.white,
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   ordersList: {
     padding: 20,
@@ -230,16 +212,16 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   orderHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     marginBottom: 12,
   },
   orderInfo: {
@@ -247,7 +229,7 @@ const styles = StyleSheet.create({
   },
   orderId: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.text,
     marginBottom: 4,
   },
@@ -263,15 +245,15 @@ const styles = StyleSheet.create({
   statusText: {
     color: Colors.white,
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   itemsPreview: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 12,
   },
   itemPreview: {
-    position: "relative",
+    position: 'relative',
     marginRight: 8,
   },
   itemImage: {
@@ -280,38 +262,38 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   quantityBadge: {
-    position: "absolute",
+    position: 'absolute',
     top: -8,
     right: -8,
     backgroundColor: Colors.primary,
     borderRadius: 10,
     width: 20,
     height: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   quantityText: {
     color: Colors.white,
     fontSize: 10,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   moreItemsBadge: {
     backgroundColor: Colors.accent,
     borderRadius: 20,
     width: 40,
     height: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   moreItemsText: {
     color: Colors.primary,
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   orderFooter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   totalItems: {
     fontSize: 14,
@@ -319,7 +301,7 @@ const styles = StyleSheet.create({
   },
   orderTotal: {
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700',
     color: Colors.primary,
   },
 });

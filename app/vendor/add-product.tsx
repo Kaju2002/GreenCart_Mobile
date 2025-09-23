@@ -1,32 +1,32 @@
-import { Colors } from '@/constants/colors';
+import { Colors } from '@/constants/Colors';
 import { useAuth } from '@/hooks/auth-store';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import {
-    ArrowLeft,
-    Camera,
-    Check,
-    CheckCircle,
-    ChevronDown,
-    Image as ImageIcon,
-    Plus,
-    Save,
-    Upload,
-    X
+  ArrowLeft,
+  Camera,
+  Check,
+  CheckCircle,
+  ChevronDown,
+  Image as ImageIcon,
+  Plus,
+  Save,
+  Upload,
+  X
 } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
-    Alert,
-    Image,
-    KeyboardAvoidingView,
-    Modal,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

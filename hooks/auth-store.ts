@@ -116,6 +116,13 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
 
   const checkBiometricAvailability = async () => {
     try {
+      // Check permissions first (important for iOS)
+      const permissionGranted = await LocalAuthentication.getEnrolledLevelAsync();
+
+      if (permissionGranted === LocalAuthentication.SecurityLevel.NONE) {
+        return { isAvailable: false, biometricType: 'none' as const };
+      }
+
       const compatible = await LocalAuthentication.hasHardwareAsync();
       const enrolled = await LocalAuthentication.isEnrolledAsync();
       const biometricEnabled = await SecureStore.getItemAsync('biometric_enabled');
@@ -134,13 +141,15 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
     try {
       const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
 
-      if (types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)) {
-        return 'fingerprint';
-      } else if (types.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)) {
+      // iOS might return multiple types, prioritize Face ID over Touch ID
+      if (types.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)) {
         return 'facial';
+      } else if (types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)) {
+        return 'fingerprint';
       }
       return 'none';
     } catch (error) {
+      console.log('Error getting biometric type:', error);
       return 'none';
     }
   };
@@ -148,16 +157,27 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
   const authenticateWithBiometrics = async () => {
     try {
       const biometricType = await getBiometricType();
+
+      // Customize prompt based on platform and biometric type
+      const promptMessage = `Authenticate with ${biometricType === 'fingerprint' ? 'Touch ID' : 'Face ID'}`;
+
       const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: `Authenticate with ${biometricType === 'fingerprint' ? 'fingerprint' : 'face recognition'}`,
+        promptMessage,
         fallbackLabel: 'Use PIN',
         cancelLabel: 'Cancel',
+        // Don't use disableDeviceFallback to ensure iOS compatibility
       });
 
       return { success: result.success };
-    } catch (error) {
+    } catch (error: any) {
       console.log('Biometric authentication error:', error);
-      return { success: false, error: 'Biometric authentication failed' };
+
+      // Return structured error for better handling
+      return {
+        success: false,
+        error: error.code || 'unknown_error',
+        message: error.message || 'Biometric authentication failed'
+      };
     }
   };
 
